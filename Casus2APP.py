@@ -103,7 +103,7 @@ if menu == 'Wereldwijd':
     )
 
     # Sorteer de dataframe op basis van de gekozen feature
-    df_sorted = df_global.sort_values(by=feature, ascending=False)
+    df_sorted = df_global.sort_values(by=feature, ascending=True)
 
     # Slider toevoegen om te wisselen tussen Top 10 Audiofeatures en Genre Distributie
     slider_option = st.slider('Selecteer plot type', 0, 1, 0, format="%d")
