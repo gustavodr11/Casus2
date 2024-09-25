@@ -14,10 +14,7 @@ if menu == 'Intro':
     st.header("Welkom bij het Spotify Data Project")
 
     # Eventueel een logo toevoegen (logo moet lokaal opgeslagen zijn, bijvoorbeeld "spotify_logo.png")
-    st.image("Spotify_logo_with_text.svg.webp", width=200) 
-    
-    # Titel van de opdracht
-    st.subheader("Analyse van Spotify Data")
+    st.image("Spotify_logo_with_text.svg.webp", width=400) 
     
     # Korte uitleg
     st.write("""
