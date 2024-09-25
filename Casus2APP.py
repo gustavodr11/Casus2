@@ -5,8 +5,8 @@ import pandas as pd
 import plotly.express as px
 
 # Spotify API authenticatie
-CLIENT_ID = '346bbc8224994730b926c4f852bf2869'  # Vul je eigen client_id in
-CLIENT_SECRET = '355d1998b5bf4f098c06d7b5f8f4ae78'  # Vul je eigen client_secret in
+CLIENT_ID = 'je_client_id'  # Vul je eigen client_id in
+CLIENT_SECRET = 'je_client_secret'  # Vul je eigen client_secret in
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET))
 
@@ -88,36 +88,46 @@ if menu == 'Intro':
         - [Streamlit documentatie](https://docs.streamlit.io/)
     """)
 
-# Wereldwijd pagina met de Global Top 50 data en plots
+# Wereldwijd pagina met de metrics en interactieve plot
 if menu == 'Wereldwijd':
     st.header("Wereldwijd: Global Top 50")
-    
-    # Tabel tonen met geselecteerde kolommen
-    st.write("Hier is de Global Top 50 playlist met extra informatie zoals trackduur, releasedatum, en genres.")
-    st.dataframe(df_global[['Artist', 'Track', 'Popularity', 'Duration (min)', 'Release Date', 'Genre']])
 
-    # Dropdown menu voor x-as keuze (audiofeatures en Popularity)
-    feature = st.selectbox(
-        'Kies een feature voor de x-as:',
-        ['Popularity', 'Danceability', 'Energy', 'Acousticness', 'Tempo']
-    )
+    # Bereken de metrics
+    most_popular_track = df_global.loc[df_global['Popularity'].idxmax(), 'Track']
+    most_popular_artist = df_global['Artist'].value_counts().idxmax()  # Meest gestreamde artiest op basis van aantal tracks
+    most_common_genre = df_global['Genre'].value_counts().idxmax()
 
-    # Sorteer de dataframe op basis van de gekozen feature
-    df_sorted = df_global.sort_values(by=feature, ascending=False)
+    # Toon de metrics
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Populairste Track", most_popular_track)
+    col2.metric("Meest Gestreamde Artiest", most_popular_artist)
+    col3.metric("Meest Voorkomende Genre", most_common_genre)
 
-    # Slider met labels voor Audiofeatures en Genre Distributie
-    slider_option = st.select_slider(
-        'Selecteer plot type',
-        options=['Top 10 Audiofeatures', 'Genre Distributie'],
-        value='Top 10 Audiofeatures'
-    )
-    
-    if slider_option == 'Top 10 Audiofeatures':
-        # Interactieve plot met de gekozen feature, gesorteerd
-        fig = px.bar(df_sorted.head(10), x=feature, y='Track', color=feature, 
-                     title=f'Top 10 Tracks by {feature}', orientation='h', color_continuous_scale='Blues')
+    # Dropdown menu voor genres
+    selected_genre = st.selectbox("Kies een genre", df_global['Genre'].unique())
+
+    # Sliders voor filtering
+    popularity_filter = st.slider('Filter op Populariteit', 50, 100, (50, 100))
+    danceability_filter = st.slider('Filter op Danceability', 0.0, 1.0, (0.0, 1.0))
+    acousticness_filter = st.slider('Filter op Acousticness', 0.0, 1.0, (0.0, 1.0))
+
+    # Filter de dataset op basis van de gekozen filters
+    df_filtered = df_global[
+        (df_global['Popularity'] >= popularity_filter[0]) & (df_global['Popularity'] <= popularity_filter[1]) &
+        (df_global['Danceability'] >= danceability_filter[0]) & (df_global['Danceability'] <= danceability_filter[1]) &
+        (df_global['Acousticness'] >= acousticness_filter[0]) & (df_global['Acousticness'] <= acousticness_filter[1]) &
+        (df_global['Genre'] == selected_genre)
+    ]
+
+    # Sorteer de gefilterde dataset op populariteit en toon de top 5
+    df_top5 = df_filtered.sort_values(by='Popularity', ascending=False).head(5)
+
+    # Interactieve plot van de gefilterde top 5
+    if not df_top5.empty:
+        fig = px.bar(df_top5, x='Popularity', y='Track', color='Popularity', 
+                     title=f'Top 5 Tracks in {selected_genre}', orientation='h', color_continuous_scale='Blues')
         fig.update_layout(
-            xaxis_title=feature,
+            xaxis_title='Popularity',
             yaxis_title='Track',
             yaxis_title_standoff=1,
             yaxis={'categoryorder':'total ascending'},
@@ -126,14 +136,8 @@ if menu == 'Wereldwijd':
         )
         fig.update_traces(marker_line_color='black', marker_line_width=0.75)
         st.plotly_chart(fig)
-    
-    elif slider_option == 'Genre Distributie':
-        # Genre verdeling plot (alleen hoofdcategorieën)
-        genre_counts = df_global['Genre'].value_counts().reset_index()
-        genre_counts.columns = ['Genre', 'Count']
-        
-        fig_genre = px.bar(genre_counts, x='Count', y='Genre', title='Genre Distribution in Global Top 50', orientation='h')
-        st.plotly_chart(fig_genre)
+    else:
+        st.write("Geen nummers gevonden met de gekozen filters.")
 
 # Placeholder voor de Nederland pagina
 if menu == 'Nederland':
