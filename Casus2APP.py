@@ -12,6 +12,9 @@ menu = st.sidebar.radio("Navigatie", ['Intro', 'Wereldwijd', 'Nederland'])
 # Intro pagina
 if menu == 'Intro':
     st.header("Welkom bij het Spotify Data Project")
+
+    # Eventueel een logo toevoegen (logo moet lokaal opgeslagen zijn, bijvoorbeeld "spotify_logo.png")
+    st.image("Spotify_logo_with_text.svg.webp", width=200) 
     
     # Titel van de opdracht
     st.subheader("Analyse van Spotify Data")
@@ -28,10 +31,7 @@ if menu == 'Intro':
     st.write("""
         - [Spotify API](https://developer.spotify.com/documentation/web-api/)
         - [Spotipy Python Library](https://spotipy.readthedocs.io/en/2.19.0/)
-    """)
-    
-    # Eventueel een logo toevoegen (logo moet lokaal opgeslagen zijn, bijvoorbeeld "spotify_logo.png")
-    st.image("Spotify_logo_with_text.svg.webp", width=200)  # Verwijder dit als je geen logo hebt toegevoegd
+    """) 
 
 # Placeholder voor de andere knoppen (Wereldwijd en Nederland)
 if menu == 'Wereldwijd':
