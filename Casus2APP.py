@@ -18,9 +18,7 @@ if menu == 'Intro':
     
     # Korte uitleg
     st.write("""
-        Dit project heeft als doel om Spotify-data te analyseren. Je kunt hier de meest populaire artiesten en genres
-        wereldwijd en in Nederland vergelijken. De gegevens zijn verzameld via de Spotify API en visualisaties helpen 
-        om de trends en verschillen tussen regio's te begrijpen.
+        korte uitleg.
     """)
     
     # Bronnen
