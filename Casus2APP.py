@@ -22,20 +22,20 @@ def get_playlist_tracks(playlist_id):
         artist_name = track['artists'][0]['name']
         track_name = track['name']
         popularity = track['popularity']
-        duration_ms = track['duration_ms'] / 1000  # Zet duur om naar seconden
+        duration_min = track['duration_ms'] / 1000 / 60  # Zet duur om naar minuten
         release_date = track['album']['release_date']
         track_id = track['id']  # Haal track ID op
         track_ids.append(track_id)
 
         # Haal genres op per artiest (eerste artiest van de track)
         artist_info = sp.artist(track['artists'][0]['id'])
-        genres = ', '.join(artist_info['genres']) if artist_info['genres'] else 'Geen genre beschikbaar'
+        genres = artist_info['genres'][0] if artist_info['genres'] else 'Geen genre beschikbaar'
         
         tracks_data.append({
             'Artist': artist_name, 
             'Track': track_name, 
             'Popularity': popularity,
-            'Duration (s)': duration_ms, 
+            'Duration (min)': round(duration_min, 2),  # Duur in minuten, afgerond
             'Release Date': release_date,
             'Genre': genres,
             'Track ID': track_id  # Voeg track ID toe voor audiofeatures
@@ -92,26 +92,30 @@ if menu == 'Intro':
 if menu == 'Wereldwijd':
     st.header("Wereldwijd: Global Top 50")
     
-    # Toon het dataframe met alle informatie, inclusief audiofeatures
+    # Tabel tonen met geselecteerde kolommen
     st.write("Hier is de Global Top 50 playlist met extra informatie zoals trackduur, releasedatum, en genres.")
-    st.dataframe(df_global)
+    st.dataframe(df_global[['Artist', 'Track', 'Popularity', 'Duration (min)', 'Release Date', 'Genre']])
 
-    # Dropdown menu voor x-as keuze (audiofeatures)
+    # Dropdown menu voor x-as keuze (audiofeatures en Popularity)
     feature = st.selectbox(
-        'Kies een audiofeature voor de x-as:',
-        ['Danceability', 'Energy', 'Acousticness', 'Tempo']
+        'Kies een feature voor de x-as:',
+        ['Popularity', 'Danceability', 'Energy', 'Acousticness', 'Tempo']
     )
 
-    # Maak een interactieve plot met de gekozen audiofeature
+    # Maak een interactieve plot met de gekozen feature
     fig = px.bar(df_global.head(10), x=feature, y='Track', title=f'Top 10 Tracks by {feature}', orientation='h')
     st.plotly_chart(fig)
 
-    # Genre verdeling plot
-    genre_counts = df_global['Genre'].value_counts().reset_index()
-    genre_counts.columns = ['Genre', 'Count']
+    # Dropdown menu om genre-verdeling te selecteren
+    plot_choice = st.radio("Selecteer een plot:", ["Top 10 Audiofeatures", "Genre Distributie"])
     
-    fig_genre = px.bar(genre_counts, x='Count', y='Genre', title='Genre Distribution in Global Top 50', orientation='h')
-    st.plotly_chart(fig_genre)
+    if plot_choice == "Genre Distributie":
+        # Genre verdeling plot (alleen hoofdcategorieën)
+        genre_counts = df_global['Genre'].value_counts().reset_index()
+        genre_counts.columns = ['Genre', 'Count']
+        
+        fig_genre = px.bar(genre_counts, x='Count', y='Genre', title='Genre Distribution in Global Top 50', orientation='h')
+        st.plotly_chart(fig_genre)
 
 # Placeholder voor de Nederland pagina
 if menu == 'Nederland':
