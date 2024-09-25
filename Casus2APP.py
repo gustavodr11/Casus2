@@ -102,14 +102,18 @@ if menu == 'Wereldwijd':
         ['Popularity', 'Danceability', 'Energy', 'Acousticness', 'Tempo']
     )
 
-    # Maak een interactieve plot met de gekozen feature
-    fig = px.bar(df_global.head(10), x=feature, y='Track', title=f'Top 10 Tracks by {feature}', orientation='h')
-    st.plotly_chart(fig)
+    # Sorteer de dataframe op basis van de gekozen feature
+    df_sorted = df_global.sort_values(by=feature, ascending=False)
 
-    # Dropdown menu om genre-verdeling te selecteren
-    plot_choice = st.radio("Selecteer een plot:", ["Top 10 Audiofeatures", "Genre Distributie"])
+    # Slider toevoegen om te wisselen tussen Top 10 Audiofeatures en Genre Distributie
+    slider_option = st.slider('Selecteer plot type', 0, 1, 0, format="%d")
     
-    if plot_choice == "Genre Distributie":
+    if slider_option == 0:
+        # Interactieve plot met de gekozen feature, gesorteerd
+        fig = px.bar(df_sorted.head(10), x=feature, y='Track', title=f'Top 10 Tracks by {feature}', orientation='h')
+        st.plotly_chart(fig)
+    
+    elif slider_option == 1:
         # Genre verdeling plot (alleen hoofdcategorieën)
         genre_counts = df_global['Genre'].value_counts().reset_index()
         genre_counts.columns = ['Genre', 'Count']
