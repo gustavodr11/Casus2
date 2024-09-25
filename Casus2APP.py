@@ -28,6 +28,7 @@ if menu == 'Intro':
     st.write("""
         - [Spotify API](https://developer.spotify.com/documentation/web-api/)
         - [Spotipy Python Library](https://spotipy.readthedocs.io/en/2.19.0/)
+        - [Spotify Logo](https://en.m.wikipedia.org/wiki/File:Spotify_logo_with_text.svg)
     """) 
 
 # Placeholder voor de andere knoppen (Wereldwijd en Nederland)
