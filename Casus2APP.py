@@ -31,7 +31,7 @@ if menu == 'Intro':
     """)
     
     # Eventueel een logo toevoegen (logo moet lokaal opgeslagen zijn, bijvoorbeeld "spotify_logo.png")
-   # st.image("spotify_logo.png", width=200)  # Verwijder dit als je geen logo hebt toegevoegd
+    st.image("Spotify_logo_with_text.svg.webp", width=200)  # Verwijder dit als je geen logo hebt toegevoegd
 
 # Placeholder voor de andere knoppen (Wereldwijd en Nederland)
 if menu == 'Wereldwijd':
