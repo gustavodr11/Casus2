@@ -1,4 +1,61 @@
 import streamlit as st
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+import pandas as pd
+import plotly.express as px
+
+# Spotify API authenticatie
+CLIENT_ID = 'je_client_id'  # Vul je eigen client_id in
+CLIENT_SECRET = 'je_client_secret'  # Vul je eigen client_secret in
+
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET))
+
+# Functie om Global Top 50 playlist data en audiofeatures op te halen
+def get_playlist_tracks(playlist_id):
+    results = sp.playlist_tracks(playlist_id)
+    tracks_data = []
+    track_ids = []
+
+    # Verzamel basisinformatie en track ID's
+    for item in results['items']:
+        track = item['track']
+        artist_name = track['artists'][0]['name']
+        track_name = track['name']
+        popularity = track['popularity']
+        duration_ms = track['duration_ms'] / 1000  # Zet duur om naar seconden
+        release_date = track['album']['release_date']
+        track_id = track['id']  # Haal track ID op
+        track_ids.append(track_id)
+
+        # Haal genres op per artiest (eerste artiest van de track)
+        artist_info = sp.artist(track['artists'][0]['id'])
+        genres = ', '.join(artist_info['genres']) if artist_info['genres'] else 'Geen genre beschikbaar'
+        
+        tracks_data.append({
+            'Artist': artist_name, 
+            'Track': track_name, 
+            'Popularity': popularity,
+            'Duration (s)': duration_ms, 
+            'Release Date': release_date,
+            'Genre': genres,
+            'Track ID': track_id  # Voeg track ID toe voor audiofeatures
+        })
+    
+    # Haal audiofeatures op voor alle tracks in één API-call
+    audio_features = sp.audio_features(track_ids)
+    
+    # Voeg de audiofeatures toe aan de dataset
+    for i, features in enumerate(audio_features):
+        tracks_data[i]['Danceability'] = features['danceability']
+        tracks_data[i]['Energy'] = features['energy']
+        tracks_data[i]['Acousticness'] = features['acousticness']
+        tracks_data[i]['Tempo'] = features['tempo']
+
+    return pd.DataFrame(tracks_data)
+
+# Haal de data van de Global Top 50 playlist op
+playlist_id = '37i9dQZEVXbMDoHDwVN2tF'  # Global Top 50 playlist
+df_global = get_playlist_tracks(playlist_id)
 
 # Basis layout voor de app
 st.set_page_config(page_title="Spotify API", layout="centered")
@@ -29,13 +86,36 @@ if menu == 'Intro':
         - [Spotify logo](https://en.m.wikipedia.org/wiki/File:Spotify_logo_with_text.svg)
         - [Youtube filmpje](https://www.youtube.com/watch?v=aFZOzmcmfcY&t=1241s)
         - [Streamlit documentatie](https://docs.streamlit.io/)
-    """) 
+    """)
 
-# Placeholder voor de andere knoppen (Wereldwijd en Nederland)
+# Wereldwijd pagina met de Global Top 50 data en plots
 if menu == 'Wereldwijd':
-    st.write("Wereldwijd data komt hier later.")
+    st.header("Wereldwijd: Global Top 50")
+    
+    # Toon het dataframe met alle informatie, inclusief audiofeatures
+    st.write("Hier is de Global Top 50 playlist met extra informatie zoals trackduur, releasedatum, en genres.")
+    st.dataframe(df_global)
 
+    # Dropdown menu voor x-as keuze (audiofeatures)
+    feature = st.selectbox(
+        'Kies een audiofeature voor de x-as:',
+        ['Danceability', 'Energy', 'Acousticness', 'Tempo']
+    )
+
+    # Maak een interactieve plot met de gekozen audiofeature
+    fig = px.bar(df_global.head(10), x=feature, y='Track', title=f'Top 10 Tracks by {feature}', orientation='h')
+    st.plotly_chart(fig)
+
+    # Genre verdeling plot
+    genre_counts = df_global['Genre'].value_counts().reset_index()
+    genre_counts.columns = ['Genre', 'Count']
+    
+    fig_genre = px.bar(genre_counts, x='Count', y='Genre', title='Genre Distribution in Global Top 50', orientation='h')
+    st.plotly_chart(fig_genre)
+
+# Placeholder voor de Nederland pagina
 if menu == 'Nederland':
     st.write("Nederland data komt hier later.")
+
 
 
