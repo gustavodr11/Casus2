@@ -93,7 +93,6 @@ if menu == 'Wereldwijd':
     st.header("Wereldwijd: Global Top 50")
     
     # Tabel tonen met geselecteerde kolommen
-    st.write("Hier is de Global Top 50 playlist met extra informatie zoals trackduur, releasedatum, en genres.")
     st.dataframe(df_global[['Artist', 'Track', 'Popularity', 'Duration (min)', 'Release Date', 'Genre']])
 
     # Dropdown menu voor x-as keuze (audiofeatures en Popularity)
