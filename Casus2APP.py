@@ -1,10 +1,10 @@
 import streamlit as st
 
 # Basis layout voor de app
-st.set_page_config(page_title="Spotify Data Project", layout="centered")
+st.set_page_config(page_title="API Case 2 - Groep 3", layout="centered")
 
 # Header en navigatieknoppen
-st.title("Spotify Data Project")
+st.title("Spotify API")
 
 # Sidebar met navigatieknoppen
 menu = st.sidebar.radio("Navigatie", ['Intro', 'Wereldwijd', 'Nederland'])
