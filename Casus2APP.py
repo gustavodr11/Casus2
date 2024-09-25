@@ -30,6 +30,7 @@ if menu == 'Intro':
         - [Spotipy Python Library](https://spotipy.readthedocs.io/en/2.19.0/)
         - [Spotify logo](https://en.m.wikipedia.org/wiki/File:Spotify_logo_with_text.svg)
         - [Youtube filmpje](https://www.youtube.com/watch?v=aFZOzmcmfcY&t=1241s)
+        - [Streamlit documentatie](https://docs.streamlit.io/)
     """) 
 
 # Placeholder voor de andere knoppen (Wereldwijd en Nederland)
