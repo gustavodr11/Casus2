@@ -13,7 +13,7 @@ menu = st.sidebar.radio("Navigatie", ['Intro', 'Wereldwijd', 'Nederland'])
 if menu == 'Intro':
     st.header("Spotify API")
 
-    # Eventueel een logo toevoegen (logo moet lokaal opgeslagen zijn, bijvoorbeeld "spotify_logo.png")
+    # Spotify logo
     st.image("Spotify_logo_with_text.svg.webp", width=300) 
     
     # Korte uitleg
