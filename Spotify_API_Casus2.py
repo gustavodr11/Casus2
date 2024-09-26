@@ -46,9 +46,9 @@ if menu == 'Wereldwijd':
     col1, col2, col3 = st.columns(3)
 
     # Metric voor populairste track met kleinere fontgrootte
-    col1.markdown(f"<h3 style='font-size:20px;'>Populairste Track</h3><p style='font-size:18px;'>{most_popular_track}</p>", unsafe_allow_html=True)
-    col2.markdown(f"<h3 style='font-size:20px;'>Meest Gestreamde Artiest</h3><p style='font-size:18px;'>{most_popular_artist}</p>", unsafe_allow_html=True)
-    col3.markdown(f"<h3 style='font-size:20px;'>Meest Voorkomende Genre</h3><p style='font-size:18px;'>{most_common_genre}</p>", unsafe_allow_html=True)
+    col1.markdown(f"<h3 style='font-size:20px;'>Populairste Track</h3><p style='font-size:16px;'>{most_popular_track}</p>", unsafe_allow_html=True)
+    col2.markdown(f"<h3 style='font-size:20px;'>Meest Gestreamde Artiest</h3><p style='font-size:16px;'>{most_popular_artist}</p>", unsafe_allow_html=True)
+    col3.markdown(f"<h3 style='font-size:20px;'>Meest Voorkomende Genre</h3><p style='font-size:16px;'>{most_common_genre}</p>", unsafe_allow_html=True)
 
     # Barplot 1
     genre_options = ['All'] + list(df_global['Genre'].unique())
