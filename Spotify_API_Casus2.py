@@ -18,8 +18,11 @@ menu = st.sidebar.radio("Navigatie", ['Intro', 'Wereldwijd', 'Nederland'])
 if menu == 'Intro':
     st.header("Spotify API")
 
+    
     # Spotify logo
     st.image("Spotify_logo_with_text.svg.webp", width=300) 
+
+    
     # Korte uitleg
     st.write("""
         Voor Casus 2 hebben we de Spotify API gebruikt. We maken allemaal gebruik van Spotify en waren daarom geïnteresseerd in het gebruik van deze API. 
