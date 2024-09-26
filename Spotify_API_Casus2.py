@@ -154,24 +154,28 @@ if menu == 'Nederland':
 
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
-    df_top5_global = df_global.head(5)
+
+    # Voeg een checkbox toe om de Global top 5 toe te voegen
+    add_global_checkbox = st.checkbox("Voeg Global Top 5 Tracks toe")
 
     # Voeg een kolom 'Region' toe om onderscheid te maken tussen Nederland en Global
     df_top5_netherlands['Region'] = 'Netherlands'
-    df_top5_global['Region'] = 'Global'
 
-    # Combineer de twee datasets voor Nederland en Global
-    df_combined = pd.concat([df_top5_netherlands, df_top5_global])
+    # Begin met alleen de Nederlandse data
+    df_combined = df_top5_netherlands
 
-    # Sorteer op Rank zodat nummer 1 van Nederland en Global naast elkaar worden weergegeven
-    df_combined = df_combined.sort_values(by='Rank')
+    # Als de checkbox is aangevinkt, voeg Global top 5 toe
+    if add_global_checkbox:
+        df_top5_global = df_global.head(5)
+        df_top5_global['Region'] = 'Global'
+        df_combined = pd.concat([df_combined, df_top5_global])
 
-    # Plot voor de gecombineerde top 5 van Nederland en Global
+    # Plot voor de gecombineerde top 5 van Nederland en eventueel Global
     fig_combined = px.bar(df_combined, 
                           x='Track', y='Rank', 
                           color='Region', 
-                          title='Top 5 Tracks: Netherlands vs Global',
-                          orientation='h', 
+                          title='Top 5 Tracks: Netherlands vs Global', 
+                          barmode='group',  # Balken naast elkaar
                           color_discrete_map={'Netherlands': '#FFA500', 'Global': '#636EFA'})  # Oranje voor Nederland, Blauw voor Global
 
     # Layout voor de plot
@@ -180,7 +184,8 @@ if menu == 'Nederland':
         yaxis_title='Rank',
         yaxis_title_standoff=35,
         height=600,
-        margin=dict(l=150)
+        margin=dict(l=150),
+        yaxis={'autorange': 'reversed'}  # Zorg dat nummer 1 bovenaan komt
     )
 
     # Toon de gecombineerde plot
