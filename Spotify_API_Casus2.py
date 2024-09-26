@@ -168,7 +168,7 @@ if menu == 'Nederland':
     fig_netherlands.update_layout(
         xaxis_title='Rank',
         yaxis_title='Track',
-        yaxis_title_standoff=70,
+        yaxis_title_standoff=35,
         height=600,
         margin=dict(l=150)
     )
