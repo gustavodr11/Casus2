@@ -168,7 +168,6 @@ if menu == 'Nederland':
         xaxis_title='Rank',
         yaxis_title='Track',
         yaxis_title_standoff=1,
-        xaxis={'autorange': 'reversed'},  # Omgekeerde x-as zodat nummer 1 rechts komt
         yaxis={'categoryorder':'total ascending'},  # Sorteer tracks op de volgorde van de dataset
         height=600,
         margin=dict(l=150)
