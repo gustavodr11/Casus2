@@ -158,7 +158,9 @@ if menu == 'Nederland':
     fig_netherlands = px.bar(df_top5_netherlands, 
                              x='Track', y='Rank', 
                              title='Top 5 Tracks: Netherlands Ranking')
-                             
+    
+    add_global_checkbox = st.checkbox("Voeg Global Top 5 Tracks toe")
+    
     # Kleur aanpassen naar vaste oranje kleur
     fig_netherlands.update_traces(marker_color='#FFA500')  # Oranje kleur zonder gradient
 
