@@ -149,7 +149,7 @@ if menu == 'Nederland':
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
  
 # Bereken de top 5 tracks op basis van de ranking (laagste waarde is de hoogste positie)
-    df_top5_netherlands = df_netherlands.ntop(5, 'Artist')
+    df_top5_netherlands = df_netherlands.nsmallest(5, 'Artist')
  
 # Plot voor Netherlands Top 5
     fig_netherlands = px.bar(df_top5_netherlands, 
