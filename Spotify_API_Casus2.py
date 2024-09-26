@@ -159,9 +159,9 @@ if menu == 'Nederland':
     # Plot voor Netherlands Top 5 artiesten, vaste kleur oranje en omgekeerde x-as
     fig_netherlands = px.bar(df_top5_netherlands, 
                              x='Rank', y='Track', 
-                             title='Top 5 Tracks: Netherlands Ranking')
+                             title='Top 5 Tracks: Netherlands Ranking',
+                             orientation='v')
                              
-
     # Kleur aanpassen naar vaste oranje kleur
     fig_netherlands.update_traces(marker_color='#FFA500')  # Oranje kleur zonder gradient
 
