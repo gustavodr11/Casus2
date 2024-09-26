@@ -150,10 +150,11 @@ if menu == 'Nederland':
 
     # Rank toevoegen
     df_netherlands['Rank'] = df_netherlands.index + 1
+    df_global['Rank'] = df_global.index + 1
 
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
-
+    
     # Plot voor Netherlands Top 5 artiesten, vaste kleur oranje en omgekeerde x-as
     fig_netherlands = px.bar(df_top5_netherlands, 
                              x='Track', y='Rank', 
@@ -172,15 +173,19 @@ if menu == 'Nederland':
         height=600,
         margin=dict(l=150)
     )
-# Als de checkbox is aangevinkt, voeg Global top 5 toe
+
+    # Als de checkbox is aangevinkt, voeg Global top 5 toe
 if add_global_checkbox:
-    # Selecteer de top 5 populairste tracks van Global
-    df_top5_global = df_global.nlargest(5, 'Popularity')
+    # Selecteer de top 5 op basis van Rank voor Global
+    df_top5_global = df_global.head(5)
+    
+    # Sorteer de top 5 op basis van Rank
+    df_top5_global = df_top5_global.sort_values(by='Rank', ascending=True)
 
     # Voeg de Global top 5 tracks toe aan de plot
     fig_global = px.bar(df_top5_global, 
-                        x='Track', y='Popularity', 
-                        title='Top 5 Tracks: Global Popularity',
+                        x='Track', y='Rank', 
+                        title='Top 5 Tracks: Global Ranking',
                         color_discrete_sequence=['#636EFA'])  # Blauw voor Global
 
     # Combineer de gegevens van Nederland en Global in één figuur
