@@ -170,8 +170,7 @@ if menu == 'Nederland':
         height=600,
         margin=dict(l=150)
     )
-
-        # Als de checkbox is aangevinkt, voeg Global top 5 toe
+      # Als de checkbox is aangevinkt, voeg Global top 5 toe
     if add_global_checkbox:
         # Selecteer de top 5 populairste tracks van Global
         df_top5_global = df_global.nlargest(5, 'Popularity')
