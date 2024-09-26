@@ -34,7 +34,7 @@ if menu == 'Intro':
         - [Streamlit documentatie](https://docs.streamlit.io/)
     """)
 
-# Wereldwijd pagina met de metrics en interactieve plot
+# Wereldwijd pagina met de metrics en interactieve plots
 if menu == 'Wereldwijd':
     st.header("Wereldwijd: Global Top 50")
 
@@ -43,7 +43,6 @@ if menu == 'Wereldwijd':
     most_popular_artist = df_global['Artist'].value_counts().idxmax()  # Meest gestreamde artiest op basis van aantal tracks
     most_common_genre = df_global['Genre'].value_counts().idxmax()
 
-    # Toon de metrics
     col1, col2, col3 = st.columns(3)
 
     # Metric voor populairste track met kleinere fontgrootte
@@ -51,10 +50,10 @@ if menu == 'Wereldwijd':
     col2.markdown(f"<h3 style='font-size:20px;'>Meest Gestreamde Artiest</h3><p style='font-size:16px;'>{most_popular_artist}</p>", unsafe_allow_html=True)
     col3.markdown(f"<h3 style='font-size:20px;'>Meest Voorkomende Genre</h3><p style='font-size:16px;'>{most_common_genre}</p>", unsafe_allow_html=True)
 
-    # Voeg 'All' toe aan de lijst van genres
+    # Barplot 1
     genre_options = ['All'] + list(df_global['Genre'].unique())
 
-    # Dropdown menu voor genres met 'All' optie
+    # Dropdown menu voor genres 
     selected_genre = st.selectbox("Kies een genre", genre_options)
 
     # Sliders voor filtering
@@ -70,7 +69,7 @@ if menu == 'Wereldwijd':
         ((df_global['Genre'] == selected_genre) if selected_genre != 'All' else True)
     ]
 
-    # Sorteer de gefilterde dataset op populariteit en toon de top 5
+    # Sorteert de gefilterde dataset op populariteit en toont de top 5
     df_top5 = df_filtered.sort_values(by='Popularity', ascending=False).head(5)
 
     # Interactieve plot van de gefilterde top 5
@@ -102,11 +101,11 @@ if menu == 'Wereldwijd':
         danceability_checkbox = st.checkbox("Danceability")
         acousticness_checkbox = st.checkbox("Acousticness")
 
-    # Maak een lege lijst voor de geselecteerde features en kleuren
+    # Scatter plot 2. Maakt een lege lijst voor de geselecteerde features en kleuren
     selected_features = []
     selected_colors = []
 
-    # Voeg de geselecteerde features toe aan de lijst
+    # Voegt de geselecteerde features toe aan de lijst
     if track_length_checkbox:
         selected_features.append('Duration (min)')
         selected_colors.append('blue')  # Blauwe kleur voor track length
@@ -119,14 +118,14 @@ if menu == 'Wereldwijd':
         selected_features.append('Acousticness')
         selected_colors.append('red')  # Rode kleur voor acousticness
 
-    # Controleer of er geen checkboxes zijn aangevinkt
+    # Controleert of er geen checkboxes zijn aangevinkt
     if not selected_features:
         st.write("Selecteer minstens één feature om de data te zien.")
     else:
-        # Maak een lege scatterplot
+        # Maakt een lege scatterplot
         fig = px.scatter()
 
-        # Voeg elke geselecteerde feature toe aan de plot
+        # Voegt elke geselecteerde feature toe aan de plot
         for i, feature in enumerate(selected_features):
             fig.add_scatter(x=df_global[feature], y=df_global['Popularity'], 
                             mode='markers', name=feature, 
@@ -140,11 +139,12 @@ if menu == 'Wereldwijd':
             margin=dict(l=150)
         )
 
-        # Toon de plot
         st.plotly_chart(fig)
 
-# Placeholder voor de Nederland pagina
+# Nederland pagina
 if menu == 'Nederland': 
+    st.header("Nederland: Top 50 Nederland")
+    
     # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
 
