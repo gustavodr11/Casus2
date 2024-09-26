@@ -148,28 +148,33 @@ if menu == 'Nederland':
     # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
 
-    # Rank
+    # Rank toevoegen
     df_netherlands['Rank'] = df_netherlands.index + 1
 
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
 
-    # Plot voor Netherlands Top 5 artiesten
+    # Plot voor Netherlands Top 5 artiesten, vaste kleur oranje en omgekeerde x-as
     fig_netherlands = px.bar(df_top5_netherlands, 
-                         x='Rank', y='Track', color='Rank', 
-                         title='Top 5 Tracks: Netherlands Ranking', 
-                         orientation='h', color_discrete_sequence=px.colors.sequential.Oranges)
+                             x='Rank', y='Track', 
+                             title='Top 5 Tracks: Netherlands Ranking', 
+                             orientation='h')
 
-    # Layout voor de Netherlands plot
+    # Kleur aanpassen naar vaste oranje kleur
+    fig_netherlands.update_traces(marker_color='#FFA500')  # Oranje kleur zonder gradient
+
+    # Layout voor de Netherlands plot met omgekeerde x-as
     fig_netherlands.update_layout(
-    xaxis_title='Artiest',
-    yaxis_title='Track',
-    yaxis_title_standoff=1,
-    yaxis={'categoryorder':'total ascending'},  # Sorteer tracks op de volgorde van de dataset
-    height=600,
-    margin=dict(l=150)
+        xaxis_title='Rank',
+        yaxis_title='Track',
+        yaxis_title_standoff=1,
+        xaxis={'autorange': 'reversed'},  # Omgekeerde x-as zodat nummer 1 rechts komt
+        yaxis={'categoryorder':'total ascending'},  # Sorteer tracks op de volgorde van de dataset
+        height=600,
+        margin=dict(l=150)
     )
 
     # Toon de Netherlands plot
     st.plotly_chart(fig_netherlands)
+
 
