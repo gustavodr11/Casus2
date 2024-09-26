@@ -170,22 +170,23 @@ if menu == 'Nederland':
         height=600,
         margin=dict(l=150)
     )
- # Als de checkbox is aangevinkt, voeg Global top 5 toe
-    if add_global_checkbox:
-        # Selecteer de top 5 populairste tracks van Global
-        df_top5_global = df_global.nlargest(5, 'Popularity')
+# Als de checkbox is aangevinkt, voeg Global top 5 toe
+if add_global_checkbox:
+    # Selecteer de top 5 populairste tracks van Global
+    df_top5_global = df_global.nlargest(5, 'Popularity')
 
-        # Voeg de Global top 5 tracks toe aan de plot
-        fig_global = px.bar(df_top5_global, 
-                            x='Track', y='Popularity', 
-                            title='Top 5 Tracks: Global Popularity',
-                            color_discrete_sequence=['#636EFA'])  # Blauw voor Global
+    # Voeg de Global top 5 tracks toe aan de plot
+    fig_global = px.bar(df_top5_global, 
+                        x='Track', y='Popularity', 
+                        title='Top 5 Tracks: Global Popularity',
+                        color_discrete_sequence=['#636EFA'])  # Blauw voor Global
 
-        # Combineer de gegevens van Nederland en Global in één figuur
-        for trace in fig_global['data']:
-            fig_netherlands.add_trace(trace)
+    # Combineer de gegevens van Nederland en Global in één figuur
+    for trace in fig_global['data']:
+        fig_netherlands.add_trace(trace)
 
-    # Toon de gecombineerde plot
-    st.plotly_chart(fig_netherlands)
+# Toon de gecombineerde plot
+st.plotly_chart(fig_netherlands)
+
 
 
