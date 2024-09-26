@@ -29,7 +29,7 @@ if menu == 'Intro':
         De Spotify API is een interface waarmee je beperkt toegang kunt krijgen tot Spotify's muziek- en audiogegevens. Met behulp van de API kun je bijvoorbeeld informatie opvragen over nummers, albums, artiesten, afspeellijsten en audiofeatures. 
         
         Hoe werkt het? Om de API te gebruiken, moet je een client ID en client secret aanvragen via het Spotify Developer Dashboard. Met deze gegevens kun je een OAuth-token verkrijgen dat toegang geeft tot de API. Om het aanroepen van de API eenvoudiger te maken, hebben we gebruikgemaakt van de Python-library Spotipy. 
-        Spotipy is een handige Python-wrapper voor de Spotify API, die het makkelijker maakt om API-aanroepen te doen zonder dat je handmatig HTTP-verzoeken hoeft te versturen.
+        Spotipy is een handige Python-wrapper voor de Spotify API, die het makkelijker maakt om API-aanroepen te doen.
     """)
     # Bronnen
     st.write("### Gebruikte Bronnen:")
