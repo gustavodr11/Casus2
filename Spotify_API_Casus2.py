@@ -167,6 +167,6 @@ if menu == 'Nederland':
     margin=dict(l=150)
     )
 
-# Toon de Netherlands plot
-st.plotly_chart(fig_netherlands)
+    # Toon de Netherlands plot
+    st.plotly_chart(fig_netherlands)
 
