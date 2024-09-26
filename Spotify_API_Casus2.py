@@ -147,26 +147,25 @@ if menu == 'Wereldwijd':
 if menu == 'Nederland':
    # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
- 
-# Bereken de top 5 tracks op basis van de ranking (laagste waarde is de hoogste positie)
-    df_top5_netherlands = df_netherlands.nsmallest(5, 'Artist')
- 
-# Plot voor Netherlands Top 5
+
+    # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
+    df_top5_netherlands = df_netherlands.head(5)
+
+    # Plot voor Netherlands Top 5 artiesten
     fig_netherlands = px.bar(df_top5_netherlands, 
-                             x='Artist', y='Track', color='Artist', 
-                             title='Top 5 Tracks: Netherlands Ranking', 
-                             orientation='h', color_continuous_scale='Oranges')
- 
-# Layout voor de Netherlands plot
+                         x='Artist', y='Track', color='Artist', 
+                         title='Top 5 Tracks: Netherlands Ranking', 
+                         orientation='h', color_discrete_sequence=px.colors.sequential.Oranges)
+
+    # Layout voor de Netherlands plot
     fig_netherlands.update_layout(
-        xaxis_title='Rank',
-        yaxis_title='Track',
-        yaxis_title_standoff=1,
-        yaxis={'categoryorder':'total ascending'},  # Sorteer tracks op ranking
-        height=600,
-        margin=dict(l=150)
+    xaxis_title='Artiest',
+    yaxis_title='Track',
+    yaxis_title_standoff=1,
+    yaxis={'categoryorder':'total ascending'},  # Sorteer tracks op de volgorde van de dataset
+    height=600,
+    margin=dict(l=150)
     )
 
 # Toon de Netherlands plot
-
-    st.plotly_chart(fig_netherlands)
+st.plotly_chart(fig_netherlands)
