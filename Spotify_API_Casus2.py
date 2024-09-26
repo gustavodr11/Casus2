@@ -155,7 +155,7 @@ if menu == 'Nederland':
     fig_netherlands = px.bar(df_top5_netherlands, 
                          x='Artist', y='Track', color='Artist', 
                          title='Top 5 Tracks: Netherlands Ranking', 
-                         orientation='h', colorscale='Oranges')
+                         orientation='h', color_discrete_sequence=px.colors.sequential.Oranges)
 
     # Layout voor de Netherlands plot
     fig_netherlands.update_layout(
