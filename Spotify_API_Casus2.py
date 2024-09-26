@@ -144,8 +144,8 @@ if menu == 'Wereldwijd':
         st.plotly_chart(fig)
 
 # Placeholder voor de Nederland pagina
-if menu == 'Nederland':
-   # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
+if menu == 'Nederland': 
+    # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
 
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
@@ -169,3 +169,4 @@ if menu == 'Nederland':
 
 # Toon de Netherlands plot
 st.plotly_chart(fig_netherlands)
+
