@@ -169,6 +169,7 @@ if menu == 'Nederland':
         xaxis_title='Rank',
         yaxis_title='Track',
         yaxis_title_standoff=1,
+        yaxis={'autorange': 'reversed'}
         height=600,
         margin=dict(l=150)
     )
