@@ -190,5 +190,46 @@ if menu == 'Nederland':
     # Toon de gecombineerde plot
     st.plotly_chart(fig_combined)
 
+    # Voeg een checkbox toe om de Global top 5 genres toe te voegen
+    add_global_checkbox_2 = st.checkbox("Voeg Global Top 5 Genres toe")
+
+    # Bereken de top 5 meest voorkomende genres voor Nederland
+    df_top5_netherlands_genres = df_netherlands['Genre'].value_counts().head(5).reset_index()
+    df_top5_netherlands_genres.columns = ['Genre', 'Count']
+    df_top5_netherlands_genres['Region'] = 'Netherlands'
+
+    # Begin met alleen de Nederlandse data
+    df_combined_genres = df_top5_netherlands_genres
+
+    # Als de checkbox is aangevinkt, voeg de Global top 5 genres toe
+    if add_global_checkbox_2:
+        # Bereken de top 5 meest voorkomende genres voor Global
+        df_top5_global_genres = df_global['Genre'].value_counts().head(5).reset_index()
+        df_top5_global_genres.columns = ['Genre', 'Count']
+        df_top5_global_genres['Region'] = 'Global'
+
+        # Combineer de Nederlandse en Global genres in één dataset
+        df_combined_genres = pd.concat([df_combined_genres, df_top5_global_genres])
+
+    # Plot voor de gecombineerde top 5 genres van Nederland en eventueel Global
+    fig_combined_genres = px.bar(df_combined_genres, 
+                                 x='Genre', y='Count', 
+                                 color='Region', 
+                                 title='Top 5 Meest Voorkomende Genres: Netherlands vs Global', 
+                                 barmode='group',  # Balken naast elkaar
+                                 color_discrete_map={'Netherlands': '#FFA500', 'Global': '#636EFA'})  # Oranje voor Nederland, Blauw voor Global
+
+    # Layout voor de plot
+    fig_combined_genres.update_layout(
+        xaxis_title='Genre',
+        yaxis_title='Aantal',
+        yaxis_title_standoff=35,
+        height=600,
+        margin=dict(l=150)
+    )
+
+    # Toon de gecombineerde plot
+    st.plotly_chart(fig_combined_genres)
+
 
 
