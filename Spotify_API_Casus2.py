@@ -154,8 +154,6 @@ if menu == 'Nederland':
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
 
-    df_top5_netherlands = df_top5_netherlands.sort_values(by='Rank', ascending=True)
-
     # Plot voor Netherlands Top 5 artiesten, vaste kleur oranje en omgekeerde x-as
     fig_netherlands = px.bar(df_top5_netherlands, 
                              x='Track', y='Rank', 
