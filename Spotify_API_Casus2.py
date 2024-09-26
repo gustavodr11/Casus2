@@ -148,52 +148,44 @@ if menu == 'Nederland':
     # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
 
-    # Rank toevoegen
+    # Rank toevoegen aan beide datasets
     df_netherlands['Rank'] = df_netherlands.index + 1
     df_global['Rank'] = df_global.index + 1
 
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
-    
-    # Plot voor Netherlands Top 5 artiesten, vaste kleur oranje en omgekeerde x-as
-    fig_netherlands = px.bar(df_top5_netherlands, 
-                             x='Track', y='Rank', 
-                             title='Top 5 Tracks: Netherlands Ranking')
-    
-    add_global_checkbox = st.checkbox("Voeg Global Top 5 Tracks toe")
-    
-    # Kleur aanpassen naar vaste oranje kleur
-    fig_netherlands.update_traces(marker_color='#FFA500')  # Oranje kleur zonder gradient
+    df_top5_global = df_global.head(5)
 
-    # Layout voor de Netherlands plot met omgekeerde x-as
-    fig_netherlands.update_layout(
+    # Voeg een kolom 'Region' toe om onderscheid te maken tussen Nederland en Global
+    df_top5_netherlands['Region'] = 'Netherlands'
+    df_top5_global['Region'] = 'Global'
+
+    # Combineer de twee datasets voor Nederland en Global
+    df_combined = pd.concat([df_top5_netherlands, df_top5_global])
+
+    # Sorteer op Rank zodat nummer 1 van Nederland en Global naast elkaar worden weergegeven
+    df_combined = df_combined.sort_values(by='Rank')
+
+    # Plot voor de gecombineerde top 5 van Nederland en Global
+    fig_combined = px.bar(df_combined, 
+                          x='Track', y='Rank', 
+                          color='Region', 
+                          title='Top 5 Tracks: Netherlands vs Global',
+                          orientation='h', 
+                          color_discrete_map={'Netherlands': '#FFA500', 'Global': '#636EFA'})  # Oranje voor Nederland, Blauw voor Global
+
+    # Layout voor de plot
+    fig_combined.update_layout(
         xaxis_title='Track',
         yaxis_title='Rank',
         yaxis_title_standoff=35,
         height=600,
-        margin=dict(l=150)
+        margin=dict(l=150),
+        yaxis={'autorange': 'reversed'}  # Zorg dat nummer 1 bovenaan komt
     )
 
-    # Als de checkbox is aangevinkt, voeg Global top 5 toe
-if add_global_checkbox:
-    # Selecteer de top 5 op basis van Rank voor Global
-    df_top5_global = df_global.head(5)
-    
-    # Sorteer de top 5 op basis van Rank
-    df_top5_global = df_top5_global.sort_values(by='Rank', ascending=True)
-
-    # Voeg de Global top 5 tracks toe aan de plot
-    fig_global = px.bar(df_top5_global, 
-                        x='Track', y='Rank', 
-                        title='Top 5 Tracks: Global Ranking',
-                        color_discrete_sequence=['#636EFA'])  # Blauw voor Global
-
-    # Combineer de gegevens van Nederland en Global in één figuur
-    for trace in fig_global['data']:
-        fig_netherlands.add_trace(trace)
-
-# Toon de gecombineerde plot
-st.plotly_chart(fig_netherlands)
+    # Toon de gecombineerde plot
+    st.plotly_chart(fig_combined)
 
 
 
