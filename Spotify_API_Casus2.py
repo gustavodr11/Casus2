@@ -148,12 +148,15 @@ if menu == 'Nederland':
     # Laad het CSV-bestand voor de Nederlandse Top 50 playlist
     df_netherlands = pd.read_csv('nederland_top_50_playlist.csv')
 
+    # Rank
+    df_netherlands['Rank'] = df_netherlands.index + 1
+
     # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
 
     # Plot voor Netherlands Top 5 artiesten
     fig_netherlands = px.bar(df_top5_netherlands, 
-                         x='Artist', y='Track', color='Artist', 
+                         x='Rank', y='Track', color='Rank', 
                          title='Top 5 Tracks: Netherlands Ranking', 
                          orientation='h', color_discrete_sequence=px.colors.sequential.Oranges)
 
