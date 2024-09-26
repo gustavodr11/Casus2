@@ -46,9 +46,9 @@ if menu == 'Wereldwijd':
     col1, col2, col3 = st.columns(3)
 
     # Metric voor populairste track met kleinere fontgrootte
-    col1.markdown(f"<h3 style='font-size:20px;'>Populairste Track</h3><p style='font-size:16px;'>{most_popular_track}</p>", unsafe_allow_html=True)
-    col2.markdown(f"<h3 style='font-size:20px;'>Meest Gestreamde Artiest</h3><p style='font-size:16px;'>{most_popular_artist}</p>", unsafe_allow_html=True)
-    col3.markdown(f"<h3 style='font-size:20px;'>Meest Voorkomende Genre</h3><p style='font-size:16px;'>{most_common_genre}</p>", unsafe_allow_html=True)
+    col1.markdown(f"<h3 style='font-size:20px;'>Populairste Track</h3><p style='font-size:18px;'>{most_popular_track}</p>", unsafe_allow_html=True)
+    col2.markdown(f"<h3 style='font-size:20px;'>Meest Gestreamde Artiest</h3><p style='font-size:18px;'>{most_popular_artist}</p>", unsafe_allow_html=True)
+    col3.markdown(f"<h3 style='font-size:20px;'>Meest Voorkomende Genre</h3><p style='font-size:18px;'>{most_common_genre}</p>", unsafe_allow_html=True)
 
     # Barplot 1
     genre_options = ['All'] + list(df_global['Genre'].unique())
@@ -108,15 +108,15 @@ if menu == 'Wereldwijd':
     # Voegt de geselecteerde features toe aan de lijst
     if track_length_checkbox:
         selected_features.append('Duration (min)')
-        selected_colors.append('blue')  # Blauwe kleur voor track length
+        selected_colors.append('blue')  
 
     if danceability_checkbox:
         selected_features.append('Danceability')
-        selected_colors.append('green')  # Groene kleur voor danceability
+        selected_colors.append('green')  
 
     if acousticness_checkbox:
         selected_features.append('Acousticness')
-        selected_colors.append('red')  # Rode kleur voor acousticness
+        selected_colors.append('red')  
 
     # Controleert of er geen checkboxes zijn aangevinkt
     if not selected_features:
@@ -129,7 +129,7 @@ if menu == 'Wereldwijd':
         for i, feature in enumerate(selected_features):
             fig.add_scatter(x=df_global[feature], y=df_global['Popularity'], 
                             mode='markers', name=feature, 
-                            marker=dict(color=selected_colors[i], size=6))  # Normale marker grootte
+                            marker=dict(color=selected_colors[i], size=6))  
 
         # Update de layout van de plot
         fig.update_layout(
@@ -152,16 +152,16 @@ if menu == 'Nederland':
     df_netherlands['Rank'] = df_netherlands.index + 1
     df_global['Rank'] = df_global.index + 1
 
-    # Selecteer de top 5 artiesten op basis van de volgorde in de dataset
+    # Selecteert de top 5 artiesten op basis van de volgorde in de dataset
     df_top5_netherlands = df_netherlands.head(5)
 
-    # Voeg een checkbox toe om de Global top 5 toe te voegen
+    # Voegt een checkbox toe om de Global top 5 toe te voegen
     add_global_checkbox = st.checkbox("Voeg Global Top 5 Tracks toe")
 
-    # Voeg een kolom 'Region' toe om onderscheid te maken tussen Nederland en Global
+    # Voegt een kolom 'Region' toe om onderscheid te maken tussen Nederland en Global
     df_top5_netherlands['Region'] = 'Netherlands'
 
-    # Begin met alleen de Nederlandse data
+    # Begint met alleen de Nederlandse data
     df_combined = df_top5_netherlands
 
     # Als de checkbox is aangevinkt, voeg Global top 5 toe
@@ -178,7 +178,7 @@ if menu == 'Nederland':
                           barmode='group',  # Balken naast elkaar
                           color_discrete_map={'Netherlands': '#FFA500', 'Global': '#636EFA'})  # Oranje voor Nederland, Blauw voor Global
 
-    # Layout voor de plot
+    
     fig_combined.update_layout(
         xaxis_title='Track',
         yaxis_title='Rank',
@@ -187,13 +187,13 @@ if menu == 'Nederland':
         margin=dict(l=150)
     )
 
-    # Toon de gecombineerde plot
+    
     st.plotly_chart(fig_combined)
 
-    # Voeg een checkbox toe om de Global top 5 genres toe te voegen
+    # Voegt een checkbox toe om de Global top 5 genres toe te voegen
     add_global_checkbox_2 = st.checkbox("Voeg Global Top 5 Genres toe")
 
-    # Bereken de top 5 meest voorkomende genres voor Nederland
+    # Berekent de top 5 meest voorkomende genres voor Nederland
     df_top5_netherlands_genres = df_netherlands['Genre'].value_counts().head(5).reset_index()
     df_top5_netherlands_genres.columns = ['Genre', 'Count']
     df_top5_netherlands_genres['Region'] = 'Netherlands'
@@ -216,10 +216,10 @@ if menu == 'Nederland':
                                  x='Genre', y='Count', 
                                  color='Region', 
                                  title='Top 5 Meest Voorkomende Genres: Netherlands vs Global', 
-                                 barmode='group',  # Balken naast elkaar
+                                 barmode='group', 
                                  color_discrete_map={'Netherlands': '#FFA500', 'Global': '#636EFA'})  # Oranje voor Nederland, Blauw voor Global
 
-    # Layout voor de plot
+    
     fig_combined_genres.update_layout(
         xaxis_title='Genre',
         yaxis_title='Aantal',
@@ -228,7 +228,7 @@ if menu == 'Nederland':
         margin=dict(l=150)
     )
 
-    # Toon de gecombineerde plot
+    
     st.plotly_chart(fig_combined_genres)
 
 
