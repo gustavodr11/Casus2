@@ -180,8 +180,7 @@ if menu == 'Nederland':
         yaxis_title='Rank',
         yaxis_title_standoff=35,
         height=600,
-        margin=dict(l=150),
-        yaxis={'autorange': 'reversed'}  # Zorg dat nummer 1 bovenaan komt
+        margin=dict(l=150)
     )
 
     # Toon de gecombineerde plot
