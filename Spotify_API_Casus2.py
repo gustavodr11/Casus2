@@ -166,8 +166,8 @@ if menu == 'Nederland':
 
     # Layout voor de Netherlands plot met omgekeerde x-as
     fig_netherlands.update_layout(
-        xaxis_title='Rank',
-        yaxis_title='Track',
+        xaxis_title='Track',
+        yaxis_title='Rank',
         yaxis_title_standoff=35,
         height=600,
         margin=dict(l=150)
